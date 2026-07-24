@@ -1,0 +1,33 @@
+// webgme-dss Modelica (full library seed) — MetaLang v0 (pattern only)
+// Source: webgme-dss/src/seeds/Modelica/Modelica.webgmex (~1.4 MB, 200+ library concepts)
+// Includes ModelicaBaseSeed metamodel + MSL component types (Modelica.Electrical.*, etc.)
+//
+// webgme-setup.json lists one seed "Modelica"; F1 selects Modelica.webgmex and notes:
+//   ignored .webgmex: ModelicaBaseSeed.webgmex
+//
+// For the full library, descriptor/metalang list every Modelica.* component as concepts
+// extending ComponentBase — too large for a hand example. See modelica-base.* for the
+// DSS core (36 concepts). Representative library entries:
+
+domain DSS.Modelica
+
+// --- core (same as ModelicaBaseSeed; see modelica-base.metalang for full extends) ---
+concept Model { contains ComponentBase*, ConnectionBase*; }
+concept Domain { contains Model*; }
+concept ComponentBase {
+  ShortName: string;
+  ModelicaURI: string;
+  contains PortBase*;
+}
+concept Pin extends PortBase;
+
+concept ElectricalConnection extends ConnectionBase {
+  src -> Pin;
+  dst -> Pin;
+}
+
+// --- MSL library (sample; full seed has 200+ similar concepts) ---
+concept Modelica.Electrical.Analog.Basic.Resistor extends ComponentBase;
+concept Modelica.Electrical.Analog.Basic.Capacitor extends ComponentBase;
+concept Modelica.Mechanics.Rotational.Components.Inertia extends ComponentBase;
+concept Modelica.Blocks.Sources.Constant extends ComponentBase;

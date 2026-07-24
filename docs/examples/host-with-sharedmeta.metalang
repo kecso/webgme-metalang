@@ -1,0 +1,16 @@
+// Host domain that attaches SharedMeta as a library.
+// Same-file style: see also import-from-file using shared-meta.metalang.
+
+domain SharedMeta
+
+concept State {
+  isInitial: bool;
+}
+
+domain Host
+
+library SharedMeta
+
+concept Machine {
+  contains SharedMeta.State*;
+}

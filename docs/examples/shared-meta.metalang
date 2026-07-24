@@ -1,0 +1,13 @@
+// SharedMeta domain — standalone library package (MetaLang multi-domain model)
+// Imported by host-with-sharedmeta.metalang via `import` + `library`.
+
+domain SharedMeta
+
+concept State {
+  isInitial: bool;
+  isFinal: bool;
+}
+
+concept Machine {
+  contains State*;
+}

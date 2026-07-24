@@ -1,0 +1,12 @@
+// Host that loads SharedMeta from an external file, then attaches it as a library.
+// Run from docs/meta/examples/:
+//   import SharedMeta from "./shared-meta.metalang"
+
+domain Host
+
+import SharedMeta from "./shared-meta.metalang"
+library SharedMeta
+
+concept Machine {
+  contains SharedMeta.State*;
+}

@@ -1,0 +1,103 @@
+; MetaLang v0 grammar (EBNF) — pointer-first
+; Connections are NOT primitive; src/dst are pointer names. See CONNECTIONS.md.
+; Cardinality: global [min..max] on contains/set name; per-type suffix on members — see CARDINALITY.md.
+;
+; Libraries: a file may define multiple domains. Domains are closed scopes (bare names only).
+; The **last** domain_decl is the host. Only domains it attaches via `library` are used;
+; other domains in the file (or loaded via import) are ignored by flatten / ImportMetaLang.
+; A domain attaches another domain as a library with `library Dom [as Alias]`; only then
+; may it refer to that library via FQN (Alias.Concept). External domains load via import.
+
+document     = { statement } ;
+
+statement    = domain_decl
+               | import_decl
+               | library_decl
+               | concept_decl ;
+
+; Starts a domain scope; following concepts belong to this domain until the next domain_decl.
+domain_decl  = "domain" , qualified_name , { newline } ;
+
+; Load domains from another .metalang (available for `library` attach).
+; Ident should match a domain name defined in that file.
+import_decl  = "import" , identifier , "from" , string_literal , { newline } ;
+
+; Attach an already-known domain (same file or imported) as a library of the *current* domain.
+; Optional `as` sets the namespace (default: domain name). Optional `from` is sugar for import+attach.
+library_decl = "library" , identifier ,
+               [ "from" , string_literal ] ,
+               [ "as" , identifier ] ,
+               { newline } ;
+
+concept_decl = "concept" , type_ref , [ "extends" , type_ref ] ,
+               concept_body , { newline } ;
+
+concept_body = block_body | ";" ;
+
+block_body   = "{" , { member } , "}" ;
+
+member       = attribute_decl
+               | pointer_decl
+               | contains_decl
+               | set_decl ;
+
+attribute_decl = identifier , ":" , type_expr , ";" ;
+
+; Pointer: name -> allowed target type(s). No cardinality in MetaLang.
+pointer_decl   = identifier , "->" , type_ref_list , ";" ;
+
+; Set: optional global limit on set name, then member types after ->.
+set_decl       = "set" , identifier , [ global_card_suffix ] , "->" ,
+                 typed_member_list , ";" ;
+
+; Containment: optional global limit on contains, then child types.
+contains_decl  = "contains" , [ global_card_suffix ] , typed_member_list , ";" ;
+
+global_card_suffix = "[" , cardinality_token , "]" ;
+
+typed_member_list = typed_member , { "," , typed_member } ;
+
+typed_member   = type_ref , member_cardinality ;
+
+type_ref_list  = type_ref , { "|" , type_ref } ;
+
+member_cardinality = [ member_cardinality_suffix ] ;
+
+member_cardinality_suffix = cardinality_shorthand_suffix
+                          | ":" , cardinality_token ;
+
+cardinality_shorthand_suffix = "*" | "+" | "?" ;
+
+cardinality_token = exact_card
+                  | range_card ;
+
+exact_card      = integer ;
+
+range_card      = integer , ".." , integer ;
+
+type_expr    = scalar_type | enum_type ;
+
+scalar_type  = "string" | "bool" | "float" | "integer" | "asset" ;
+
+enum_type    = "enum" , "[" , enum_value , { "," , enum_value } , "]" ;
+
+enum_value   = identifier | string_literal ;
+
+type_ref     = qualified_name ;
+
+qualified_name = identifier , { "." , identifier } ;
+
+identifier     = letter , { letter | digit | "_" } ;
+
+integer        = digit , { digit } ;
+
+string_literal = '"' , { character - '"' } , '"' ;
+
+letter         = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M"
+               | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
+               | "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m"
+               | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" ;
+
+digit          = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+
+newline        = ? ASCII LF or CRLF ? ;

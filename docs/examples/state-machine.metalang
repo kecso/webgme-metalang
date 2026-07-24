@@ -1,0 +1,47 @@
+// StaMS StateMachine — MetaLang v0
+// Source: test/fixtures/sample-project (StaMS StateMachine.webgmex)
+// All domain concepts extend FCO — no "extends" lines (see metalang/README.md).
+
+domain StaMS.StateMachine
+
+concept Variable {
+  type: enum[float, string];
+}
+
+concept Transition {
+  src -> State;
+  dst -> State;
+  event -> Event;
+  guard -> Guard;
+  action -> Action;
+}
+
+concept Constraint {
+  body: string;
+  kind: enum[safety, goal];
+}
+
+concept File {
+  contains Machine*;
+}
+
+concept Machine {
+  description: string;
+  contains Action*, Constraint*, Event*, Guard*, State*, Variable*;
+}
+
+concept Event;
+
+concept Action {
+  body: string;
+}
+
+concept Guard;
+
+concept State {
+  isFinal: bool;
+  isInitial: bool;
+  entry -> Action;
+  run -> Action;
+  exit -> Action;
+}

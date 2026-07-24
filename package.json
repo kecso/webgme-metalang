@@ -1,0 +1,52 @@
+{
+  "name": "webgme-metalang",
+  "version": "0.1.0",
+  "description": "MetaLang — textual metamodeling language for WebGME (parse, emit, and future LSP)",
+  "author": "Tamas Kecskes <tamas.kecskes@vanderbilt.edu>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kecso/webgme-metalang.git"
+  },
+  "homepage": "https://github.com/kecso/webgme-metalang#readme",
+  "bugs": {
+    "url": "https://github.com/kecso/webgme-metalang/issues"
+  },
+  "keywords": [
+    "webgme",
+    "metalang",
+    "metamodel",
+    "dsl",
+    "lsp"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "docs",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "test": "npm run build && npm run test:coverage",
+    "test:run": "node --test test/*.test.js",
+    "test:coverage": "c8 --include \"dist/**/*.js\" --exclude \"dist/**/*.d.ts\" --reporter=text-summary --reporter=text --check-coverage=false node --enable-source-maps --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "c8": "^11.0.0",
+    "typescript": "^5.8.3"
+  }
+}

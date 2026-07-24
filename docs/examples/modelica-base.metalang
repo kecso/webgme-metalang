@@ -1,0 +1,95 @@
+// webgme-dss ModelicaBaseSeed — MetaLang v0 (pointer-first)
+// See docs/meta/CONNECTIONS.md — src/dst are ordinary pointers; no connection layer in descriptor JSON.
+
+domain DSS.ModelicaBase
+
+concept Model {
+  contains ComponentBase*, ConnectionBase*;
+}
+
+concept Domain {
+  contains Model*;
+}
+
+concept ComponentBase {
+  ShortName: string;
+  ModelicaURI: string;
+  contains PortBase*;
+}
+
+concept PortBase;
+concept ConnectionBase;
+
+concept Pin extends PortBase;
+concept HeatPort extends PortBase;
+concept FlowPort extends PortBase;
+concept Rotational_Flange extends PortBase;
+concept Translational_Flange extends PortBase;
+concept Mechanical_Frame extends PortBase;
+concept Mechanical_FlangeWithBearing extends PortBase;
+
+concept RealInput extends PortBase;
+concept RealOutput extends PortBase;
+concept RealVectorInput extends PortBase;
+concept BooleanInput extends PortBase;
+concept BooleanOutput extends PortBase;
+concept BooleanVectorInput extends PortBase;
+concept IntegerInput extends PortBase;
+concept IntegerOutput extends PortBase;
+concept IntegerVectorInput extends PortBase;
+concept ComplexInput extends PortBase;
+concept ComplexOutput extends PortBase;
+
+concept RealValueFlow extends ConnectionBase {
+  src -> RealOutput;
+  dst -> RealInput | RealVectorInput;
+}
+
+concept BooleanValueFlow extends ConnectionBase {
+  src -> BooleanOutput;
+  dst -> BooleanInput | BooleanVectorInput;
+}
+
+concept IntegerValueFlow extends ConnectionBase {
+  src -> IntegerOutput;
+  dst -> IntegerInput | IntegerVectorInput;
+}
+
+concept ComplexValueFlow extends ConnectionBase {
+  src -> ComplexOutput;
+  dst -> ComplexInput;
+}
+
+concept ElectricalConnection extends ConnectionBase {
+  src -> Pin;
+  dst -> Pin;
+}
+
+concept MechanicsRotationalConnection extends ConnectionBase {
+  src -> Rotational_Flange;
+  dst -> Rotational_Flange;
+}
+
+concept MechanicsTranslationalConnection extends ConnectionBase {
+  src -> Translational_Flange;
+  dst -> Translational_Flange;
+}
+
+concept MechanicalConnection extends ConnectionBase {
+  src -> Mechanical_Frame;
+  dst -> Mechanical_Frame;
+}
+
+concept HeatFlow extends ConnectionBase {
+  src -> HeatPort;
+  dst -> HeatPort;
+}
+
+concept FluidHeatFlow extends ConnectionBase {
+  src -> FlowPort;
+  dst -> FlowPort;
+}
+
+concept Documentation;
+concept SimulationResult;
+concept SimulationResults;

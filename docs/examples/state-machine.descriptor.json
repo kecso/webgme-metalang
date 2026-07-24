@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "concepts": {
+    "Variable": {
+      "attributes": {
+        "type": {
+          "type": "enum",
+          "values": ["float", "string"]
+        }
+      }
+    },
+    "Transition": {
+      "pointers": {
+        "src": "State",
+        "dst": "State",
+        "event": "Event",
+        "guard": "Guard",
+        "action": "Action"
+      }
+    },
+    "Constraint": {
+      "attributes": {
+        "body": "string",
+        "kind": {
+          "type": "enum",
+          "values": ["safety", "goal"]
+        }
+      }
+    },
+    "File": {
+      "contains": {
+        "Machine": "*"
+      }
+    },
+    "Machine": {
+      "attributes": {
+        "description": "string"
+      },
+      "contains": {
+        "Action": "*",
+        "Constraint": "*",
+        "Event": "*",
+        "Guard": "*",
+        "State": "*",
+        "Variable": "*"
+      }
+    },
+    "Event": {},
+    "Action": {
+      "attributes": {
+        "body": "string"
+      }
+    },
+    "Guard": {},
+    "State": {
+      "attributes": {
+        "isFinal": "bool",
+        "isInitial": "bool"
+      },
+      "pointers": {
+        "entry": "Action",
+        "run": "Action",
+        "exit": "Action"
+      }
+    }
+  }
+}
