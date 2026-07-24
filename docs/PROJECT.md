@@ -11,7 +11,7 @@ Living tracker for this package. Companion to [`webgme-domain-tools`](https://gi
 
 ## Current milestone
 
-**M0 — Core library** — `in progress`
+**M0 — Core library** — `done` (2026-07-24)
 
 | ID | Feature | Status | Notes |
 |----|---------|--------|-------|
@@ -21,7 +21,7 @@ Living tracker for this package. Companion to [`webgme-domain-tools`](https://gi
 | ML4 | Canonical emit (`descriptor → metalang`) | `done` | `library` directives; bare in-domain refs |
 | ML5 | Tests + c8 (node:test) | `done` | Same style as webdot |
 | ML6 | CI on push/PR | `done` | GitHub Actions |
-| ML7 | webdot depends on this package | `pending` | `github:kecso/webgme-metalang` then npm |
+| ML7 | webdot depends on this package | `done` | `github:kecso/webgme-metalang#main` (npm after M1) |
 
 **Review gate:** `npm test` · examples under `docs/examples/` parse · webdot green after dependency swap.
 
@@ -115,4 +115,4 @@ Living tracker for this package. Companion to [`webgme-domain-tools`](https://gi
 
 | Date | Milestone | Outcome | Notes |
 |------|-----------|---------|-------|
-| 2026-07-24 | M0 scaffold | started | Extracted from webdot Phase 9; empty repo seeded |
+| 2026-07-24 | M0 scaffold | done | Extracted from webdot; webdot wired to github dependency; plugins remain in webdot |
